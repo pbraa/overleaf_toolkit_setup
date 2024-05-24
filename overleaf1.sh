@@ -2,6 +2,9 @@
 
 # Define variables
 servername="Change this to your liking"
+listen_ip="0.0.0.0" # Change this if required
+listen_port="80" # By default this port is set to port 80. Change if required for your environment.
+
 
 # Clone the overleaf toolkit
 git clone https://github.com/overleaf/toolkit.git ./overleaf
@@ -14,7 +17,11 @@ bin/init
 echo "PATH=/usr/local/texlive/2023/bin/x86_64-linux:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" >> config/overleaf.rc
 
 if grep -q -E "^OVERLEAF_LISTEN_IP=.*" "config/overleaf.rc"; then
-    sed -i -E "s/^OVERLEAF_LISTEN_IP=.*$/OVERLEAF_LISTEN_IP=0.0.0.0/" config/overleaf.rc
+    sed -i -E "s/^OVERLEAF_LISTEN_IP=.*$/OVERLEAF_LISTEN_IP=\"$listen_ip\"/" config/overleaf.rc
+fi
+
+if grep -q -E "^OVERLEAF_LISTEN_PORT=." "config/overleaf.rc"; then
+    sed -i -E "s/^OVERLEAF_LISTEN_IP=.*$/OVERLEAF_LISTEN_IP=\"$listen_port\"/" config/overleaf.rc
 fi
 
 # Change the name of the overleaf instance in variables.env
